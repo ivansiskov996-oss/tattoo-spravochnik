@@ -44,7 +44,7 @@ def faq_pairs(body):
 
 def render_body(a):
     body = re.sub(r"<!--.*?-->", "", a["body"], flags=re.S)
-    body = re.sub(r"^# .+\n", "", body, count=1)  # H1 rendered by template
+    body = re.sub(r"\A\s*# .+\n", "", body, count=1)  # H1 rendered by template
     h = markdown.markdown(body, extensions=["tables", "toc"])
     # images: rewrite paths, add lazy loading, wrap img+caption in <figure>
     def fig(mo):
