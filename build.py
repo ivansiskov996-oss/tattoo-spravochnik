@@ -212,6 +212,9 @@ def main():
     llms += [f"- [{a['title']}]({a['_url']}): {a['description']}" for a in pub]
     open(os.path.join(OUT, "llms.txt"), "w", encoding="utf-8").write("\n".join(llms) + "\n")
     open(os.path.join(OUT, ".nojekyll"), "w").write("")
+    static = os.path.join(ROOT, "static")
+    if os.path.isdir(static):
+        for f in os.listdir(static): shutil.copy(os.path.join(static, f), os.path.join(OUT, f))
     print(f"Built {len(pub)} article(s) -> {OUT}")
 
 if __name__ == "__main__":
