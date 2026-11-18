@@ -1,0 +1,5 @@
+dist/
+dist-drafts/
+preview/
+.publish/
+__pycache__/
