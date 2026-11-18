@@ -33,3 +33,12 @@
 - Если после деплоя «pages build and deployment» не запустился — сделать любой маленький коммит в `gh-pages` через MCP (`create_or_update_file`, например `version.txt`).
 - Картинка 404 → проверить, что `.b64` запушен по пути `images/<slug>/<имя>.jpg.b64` и имя совпадает со ссылкой в Markdown.
 - Нельзя публиковать: выдуманные факты/статистику, фото без проверенной лицензии, реальные фото клиентов без их согласия.
+
+## Корневой сайт ivansiskov996-oss.github.io
+Репозиторий: https://github.com/ivansiskov996-oss/ivansiskov996-oss.github.io (ветка `main`, корень; Pages включился автоматически — это user-site). Локальная копия: `/workspace/usersite/`.
+Содержит:
+- `yandex_3a36fc2a11641f19.html` — подтверждение Яндекс Вебмастера (НЕ удалять и не менять). Копия лежит и в проекте: `static/` → `dist/` (всё из `static/` копируется в корень сборки).
+- `index.html` — редирект (meta refresh + canonical + JS, `noindex,follow`) на https://ivansiskov996-oss.github.io/tattoo-spravochnik/
+- `robots.txt` — `Allow: /` + `Sitemap: https://ivansiskov996-oss.github.io/tattoo-spravochnik/sitemap.xml` (именно его читают поисковики, т.к. robots.txt берётся из корня домена).
+- `llms.txt` — описание и ссылка на актуальный `/tattoo-spravochnik/llms.txt`. При публикации новой статьи (необязательно, но желательно) добавить строку статьи и в корневой `llms.txt` (push в `ivansiskov996-oss.github.io`, ветка `main`).
+Оба сайта сосуществуют: корень обслуживается из `ivansiskov996-oss.github.io`, а `/tattoo-spravochnik/` — из ветки `gh-pages` проекта. Не создавать в корневом репозитории папку `tattoo-spravochnik/` — она перекроет проектный сайт.
