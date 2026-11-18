@@ -2,7 +2,7 @@
 
 Сайт: https://ivansiskov996-oss.github.io/tattoo-spravochnik/
 Репозиторий: https://github.com/ivansiskov996-oss/tattoo-spravochnik (ветка `main`)
-Хостинг: GitHub Pages, деплой — GitHub Actions (`.github/workflows/pages.yml`) при каждом push в `main`.
+Хостинг: GitHub Pages (источник — ветка `gh-pages`, корень). Деплой: GitHub Actions (`.github/workflows/pages.yml`) при каждом push в `main` собирает сайт и force-пушит `dist/` в `gh-pages`, после чего GitHub сам запускает «pages build and deployment» (~1 мин).
 
 ## Структура (локально: /workspace/tattoo-site/)
 - `articles/<slug>.md` — статьи. Front matter: `title`, `description` (≤160 символов), `slug`, `date: "ГГГГ-ММ-ДД"`, `draft: true|false`, `keywords`.
@@ -24,11 +24,12 @@
 5. **Запушить** через GitHub MCP (`user-GitHub-xai` → `push_files`, owner `ivansiskov996-oss`, repo `tattoo-spravochnik`, branch `main`):
    - сначала картинки (по 2–3 файла за коммит, `content: "$file:/workspace/tattoo-site/.publish/images/<slug>/<file>.jpg.b64"`, path `images/<slug>/<file>.jpg.b64`);
    - последним коммитом — `articles/<slug>.md` (тоже через `$file:`). Если менялся `build.py` — его тоже.
-6. **Дождаться деплоя**: `actions_list` (workflow runs) → статус `success` (обычно 1–2 минуты).
+6. **Дождаться деплоя**: `actions_list` → `list_workflow_runs`: сначала «Build and deploy to GitHub Pages», затем «pages build and deployment» — оба `success` (обычно 1–3 минуты).
 7. **Проверить вживую**: `curl -sI https://ivansiskov996-oss.github.io/tattoo-spravochnik/<slug>/` → 200; каждая картинка → 200 и `content-type: image/jpeg`; `sitemap.xml` содержит URL.
 8. **Отчёт** владельцу в Telegram: заголовок, ссылка, что проверено.
 
 ## Если что-то сломалось
-- Workflow упал на `configure-pages` → в репозитории Settings → Pages → Source: «GitHub Actions» (делает владелец один раз).
+- Pages перестал обновляться / 404 на всём сайте → проверить Settings → Pages: Source = «Deploy from a branch», ветка `gh-pages`, папка `/ (root)`. Pages был включён автоматически пушем пользователя в `gh-pages` (через `create_or_update_file`); `configure-pages` с `GITHUB_TOKEN` включить Pages не может.
+- Если после деплоя «pages build and deployment» не запустился — сделать любой маленький коммит в `gh-pages` через MCP (`create_or_update_file`, например `version.txt`).
 - Картинка 404 → проверить, что `.b64` запушен по пути `images/<slug>/<имя>.jpg.b64` и имя совпадает со ссылкой в Markdown.
 - Нельзя публиковать: выдуманные факты/статистику, фото без проверенной лицензии, реальные фото клиентов без их согласия.

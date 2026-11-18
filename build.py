@@ -4,6 +4,8 @@ Usage: python3 build.py [--out dist] [--include-drafts]
 Reads articles/*.md (YAML-ish front matter), images/<slug>/*, writes static site to dist/.
 """
 import re, os, sys, json, shutil, html, datetime, markdown
+from zoneinfo import ZoneInfo
+TODAY = datetime.datetime.now(ZoneInfo("Europe/Moscow")).date()
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE_URL = os.environ.get("SITE_URL", "https://ivansiskov996-oss.github.io/tattoo-spravochnik")
@@ -143,7 +145,7 @@ def page(title, desc, canonical, body, og_image=None, og_type="website", jsonld=
 <main>
 {body}
 </main>
-<footer>© {datetime.date.today().year} Тату-студия «ТатуНаХоду», Москва, Нижегородская ул., 5. Материалы справочника не являются медицинской консультацией. · <a href="{BOOK_URL}" rel="noopener" target="_blank">Записаться в Telegram</a> · <a href="{CHANNEL_URL}" rel="noopener" target="_blank">Наш канал</a></footer>
+<footer>© {TODAY.year} Тату-студия «ТатуНаХоду», Москва, Нижегородская ул., 5. Материалы справочника не являются медицинской консультацией. · <a href="{BOOK_URL}" rel="noopener" target="_blank">Записаться в Telegram</a> · <a href="{CHANNEL_URL}" rel="noopener" target="_blank">Наш канал</a></footer>
 <div class="sticky"><div class="in"><div class="txt">Есть вопрос про тату или хотите записаться? Ответим в Telegram.</div><div class="acts"><a class="btn" href="{BOOK_URL}" rel="noopener" target="_blank">Записаться</a><a class="btn ghost" href="{CHANNEL_URL}" rel="noopener" target="_blank">Канал</a></div></div></div>
 </body>
 </html>
@@ -198,7 +200,7 @@ def main():
     open(os.path.join(OUT, "404.html"), "w", encoding="utf-8").write(
         page("Страница не найдена | ТатуНаХоду", SITE_DESC, SITE_URL + "/", f'<h1>Страница не найдена</h1><p><a href="{BASE}/">Перейти в справочник</a></p>'))
     # sitemap
-    today = datetime.date.today().isoformat()
+    today = TODAY.isoformat()
     urls = [(SITE_URL + "/", today)] + [(a["_url"], a["date"] or today) for a in pub]
     sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(
         f"  <url><loc>{u}</loc><lastmod>{d}</lastmod></url>\n" for u, d in urls) + "</urlset>\n"
