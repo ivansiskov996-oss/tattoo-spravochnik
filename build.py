@@ -114,6 +114,22 @@ footer{max-width:820px;margin:0 auto;padding:24px 20px;font-size:13.5px;color:va
 footer a{color:var(--muted)}
 """
 
+# Plain strings: the counter JS contains braces that must not be parsed as f-string fields.
+METRIKA_HEAD = """<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114631001', 'ym');
+
+    ym(114631001, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>"""
+
+METRIKA_BODY = """<noscript><div><img src="https://mc.yandex.ru/watch/114631001" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->"""
+
 def page(title, desc, canonical, body, og_image=None, og_type="website", jsonld=(), keywords=None):
     og_img = f'<meta property="og:image" content="{og_image}">\n<meta name="twitter:image" content="{og_image}">' if og_image else ""
     lds = "\n".join(f'<script type="application/ld+json">{json.dumps(j, ensure_ascii=False)}</script>' for j in jsonld)
@@ -139,8 +155,10 @@ def page(title, desc, canonical, body, og_image=None, og_type="website", jsonld=
 <link rel="alternate" type="text/plain" title="llms.txt" href="{BASE}/llms.txt">
 <style>{CSS}</style>
 {lds}
+{METRIKA_HEAD}
 </head>
 <body>
+{METRIKA_BODY}
 <header class="top"><div class="in"><a class="logo" href="{BASE}/">Тату<span>На</span>Ходу · справочник</a><a class="btn" href="{BOOK_URL}" rel="noopener" target="_blank">Записаться</a></div></header>
 <main>
 {body}
