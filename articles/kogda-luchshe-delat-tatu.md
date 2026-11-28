@@ -3,7 +3,7 @@ title: "Когда лучше делать тату: летом, зимой ил
 description: "Какое время года лучше для тату: солнце, вода, одежда и сроки заживления. Сравнение лета, зимы и межсезонья по данным Cleveland Clinic, Mayo Clinic и AAD."
 slug: "kogda-luchshe-delat-tatu"
 date: "2026-11-28"
-draft: true
+draft: false
 keywords:
   - когда лучше делать тату
   - в какое время года лучше делать тату
