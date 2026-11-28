@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ivansiskov996-oss.github.io/tattoo-spravochnik/sitemap.xml
